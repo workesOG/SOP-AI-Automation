@@ -1,0 +1,10 @@
+Groceries
+Rent
+Utilities
+Transportation
+Entertainment
+Dining
+Savings
+Investments
+Medical
+Miscellaneous

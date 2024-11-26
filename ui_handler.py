@@ -2,18 +2,21 @@
 
 import tkinter as tk
 from tkinter import ttk, messagebox
+from ai_handler import translate_natural_language_to_commands
 
 class FinanceTrackerUI:
-    def __init__(self, root, command_callback):
+    def __init__(self, root, command_callback, ai_command_callback):
         """
         Initializes the UI components.
 
         Parameters:
             root (tk.Tk): The root window.
-            command_callback (function): The function to call when a command is entered.
+            command_callback (function): The function to call when a command is entered via the command line.
+            ai_command_callback (function): The function to call when a command is entered via the AI prompt window.
         """
         self.root = root
         self.command_callback = command_callback
+        self.ai_command_callback = ai_command_callback
         self.root.title("Personal Finance Tracker")
         self.root.geometry("800x650")  # Updated height to 650px
         self.create_widgets()
@@ -66,14 +69,19 @@ class FinanceTrackerUI:
         self.balance_label = tk.Label(totals_frame, text="Net Balance: $0.00", font=("Helvetica", 12, 'bold'))
         self.balance_label.pack(side='left', padx=10)
 
-        # Frame for command-line
+        # Frame for command-line and AI prompt button
         cmd_frame = tk.Frame(self.root)
         cmd_frame.pack(fill="x", padx=10, pady=5)
 
+        # Command-line entry
         tk.Label(cmd_frame, text="Command:").pack(side='left')
-        self.cmd_entry = tk.Entry(cmd_frame, width=80)
+        self.cmd_entry = tk.Entry(cmd_frame, width=60)
         self.cmd_entry.pack(side='left', padx=5)
         self.cmd_entry.bind("<Return>", self.on_enter_command)
+
+        # AI Prompt Button
+        ai_button = tk.Button(cmd_frame, text="AI Prompt", command=self.open_ai_prompt_window)
+        ai_button.pack(side='left', padx=5)
 
     def on_enter_command(self, event):
         """
@@ -167,3 +175,34 @@ class FinanceTrackerUI:
             message (str): The error message to display.
         """
         messagebox.showerror(title, message)
+
+    def open_ai_prompt_window(self):
+        """
+        Opens a new window for entering natural language prompts.
+        """
+        prompt_window = tk.Toplevel(self.root)
+        prompt_window.title("AI Prompt")
+        prompt_window.geometry("500x300")
+
+        tk.Label(prompt_window, text="Enter your natural language prompt below:", font=("Helvetica", 12)).pack(pady=10)
+
+        self.prompt_text = tk.Text(prompt_window, wrap='word', height=10, width=60)
+        self.prompt_text.pack(padx=10, pady=5)
+
+        submit_button = tk.Button(prompt_window, text="Submit", command=self.submit_ai_prompt)
+        submit_button.pack(pady=10)
+
+    def submit_ai_prompt(self):
+        """
+        Handles the submission of the AI prompt.
+        """
+        user_input = self.prompt_text.get("1.0", tk.END).strip()
+        if not user_input:
+            self.display_error("Input Error", "Please enter a prompt.")
+            return
+
+        # Disable the submit button to prevent multiple submissions
+        # (Optional: Implement loading indicators)
+
+        # Call the AI command callback with the user input
+        self.ai_command_callback(user_input)
