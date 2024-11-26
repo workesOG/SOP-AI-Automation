@@ -1,5 +1,3 @@
-# main.py
-
 import tkinter as tk
 from ui_handler import FinanceTrackerUI
 from commands import parse_command
@@ -82,7 +80,7 @@ def main():
             # Convert DD/MM/YYYY to YYYY-MM-DD
             try:
                 day, month, year = map(int, command.date.split('/'))
-                formatted_date = f"{year:04d}-{month:02d}-{day:02d}"
+                formatted_date = f"{day:02d}/{month:02d}/{year:04d}"
             except ValueError:
                 app.display_error("Date Error", f"Invalid date format: {command.date}. Expected DD/MM/YYYY.")
                 return

@@ -1,5 +1,3 @@
-# commands.py
-
 import shlex
 from datetime import datetime
 from tkinter import messagebox

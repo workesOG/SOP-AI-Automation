@@ -80,7 +80,8 @@ def edit_transaction(transaction_id, field, new_value):
                 # Validate and format the date
                 try:
                     day, month, year = map(int, new_value.split('/'))
-                    txn['Date'] = f"{year:04d}/{month:02d}/{day:02d}"
+                    print(new_value)
+                    txn['Date'] = f"{day:02d}/{month:02d}/{year:04d}"
                 except ValueError:
                     return False
             elif field == 'category':

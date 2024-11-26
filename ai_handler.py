@@ -123,8 +123,8 @@ def build_commands_prompt():
         - Syntax: category <action> <name>
         - Manages categories.
         - Parameters:
-            - action: One of "add", "remove", or "reset".
-            - name: The name of the category to add or remove (not required for "reset").
+            - action: One of "add", "remove", or "reset". (put this in the "action" field in the object)
+            - name: The name of the category to add or remove (not required for "reset") (Make sure to place this in the "name" field in the object).
 
     3. **remove**:
         - Syntax: remove <ID> [<ID> ...]
